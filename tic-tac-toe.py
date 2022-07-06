@@ -15,8 +15,25 @@ def init_table():
         table.append(list(sign_empty * n))
 
 
+# проверка ввода пользователя
+def is_input_valid(coords):
+    x = 0
+    y = 0
+    if ',' in coords:
+        x = coords.split(',')[0]
+        y = coords.split(',')[1]
+        if not (x.isdigit() and y.isdigit()):
+            return False
+        if not is_cell_valid(x, y):
+            return False
+        return True
+    return False
+
+
 # проверка что ячейка существует и не занята
 def is_cell_valid(x, y):
+    x = int(x)
+    y = int(y)
     if x < 0 or y < 0 or x >= n or y >= n:
         return False
     return table[x][y] == sign_empty
@@ -24,13 +41,11 @@ def is_cell_valid(x, y):
 
 def turn_human():
     while True:
-        coords = input('Введите координаты вашего хода в формате x,y: ')
-        # тут должна быть куча проверок на корректность ввода от пользователя
-        x = int(coords.split(',')[0])
-        y = int(coords.split(',')[1])
-        # print('Получены координаты: x='+str(x)+', y='+str(y))
-        if is_cell_valid(x, y):
+        coords = input(f'Введите координаты вашего хода в формате x,y (от 0 до {n - 1}): ')
+        if is_input_valid(coords):
             break
+    x = int(coords.split(',')[0])
+    y = int(coords.split(',')[1])
     table[x][y] = sign_x
 
 
